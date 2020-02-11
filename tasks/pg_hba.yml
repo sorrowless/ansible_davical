@@ -19,6 +19,6 @@
 
 - name: Restart postgresql
   service:
-    name: "postgresql@{{ pg_version.stdout }}.service"
+    name: "postgresql@{{ pg_version.stdout }}-main.service"
     state: restarted
   when: dav_dba.changed or dav_app.changed

@@ -27,11 +27,6 @@
   debug:
     msg: "{{ createdatabase.stdout }}"
 
-- name: Ensure pg_hba configuration again
-  include_tasks: pg_hba.yml
-  vars:
-    config_state: absent
-
 - name: Ensure davical configuration
   template:
     src: config.php

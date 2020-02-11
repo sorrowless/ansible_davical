@@ -1,0 +1,7 @@
+---
+- name: Ensure davical on target hosts
+  hosts: davicals
+  remote_user: root
+
+  roles:
+    - davical

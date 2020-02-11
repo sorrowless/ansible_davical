@@ -1,0 +1,41 @@
+---
+- name: Install Davical package
+  package:
+    name: "{{ davical.packages }}"
+    state: installed
+
+- name: Get installed postgresql version
+  shell:
+    cmd: |
+      pg_lsclusters | tail -n+2 | cut -d" " -f1
+  register: pg_version
+  changed_when: false
+
+- name: Ensure pg_hba configuration
+  include_tasks: pg_hba.yml
+  vars:
+    config_state: present
+
+- name: Create new davical database
+  become: yes
+  become_method: sudo
+  become_user: postgres
+  command: bash -c "/usr/share/davical/dba/create-database.sh"
+  register: createdatabase
+
+- name: See output log for admin password
+  debug:
+    msg: "{{ createdatabase.stdout }}"
+
+- name: Ensure pg_hba configuration again
+  include_tasks: pg_hba.yml
+  vars:
+    config_state: absent
+
+- name: Ensure davical configuration
+  template:
+    src: config.php
+    dest: /etc/davical/config.php
+    mode: 0640
+    owner: root
+    group: www-data

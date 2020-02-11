@@ -1,0 +1,19 @@
+---
+- name: Override default data with user one
+  set_fact:
+    davical: "{{ davical_defaults | combine(davical, recursive=True) }}"
+  tags:
+    - always
+
+- name: Check if database is already installed
+  become: yes
+  become_method: sudo
+  become_user: postgres
+  command: bash -c "psql -d davical -c 'select * from usr;'"
+  ignore_errors: yes
+  changed_when: false
+  register: davical_db_exists
+
+- name: Import davical installation tasks
+  import_tasks: davical.yml
+  when: davical_db_exists.rc != 0

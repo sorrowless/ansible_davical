@@ -1,0 +1,24 @@
+---
+- name: Prepare database connection
+  lineinfile:
+    dest: "/etc/postgresql/{{ pg_version.stdout }}/main/pg_hba.conf"
+    regexp: "local davical davical_dba trust"
+    insertbefore: "# PostgreSQL Client"
+    line: "local davical davical_dba trust"
+    state: "{{ config_state }}"
+  register: dav_dba
+
+- name: Prepare database connection
+  lineinfile:
+    dest: "/etc/postgresql/{{ pg_version.stdout }}/main/pg_hba.conf"
+    regexp: "local davical davical_app trust"
+    insertbefore: "# PostgreSQL Client"
+    line: "local davical davical_app trust"
+    state: "{{ config_state }}"
+  register: dav_app
+
+- name: Restart postgresql
+  service:
+    name: "postgresql@{{ pg_version.stdout }}.service"
+    state: restarted
+  when: dav_dba.changed or dav_app.changed

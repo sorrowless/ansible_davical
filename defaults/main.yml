@@ -1,0 +1,9 @@
+---
+# defaults file for davical
+davical: {}
+davical_defaults:
+  packages:
+    - davical
+  domain_name: cal.example.com
+  admin_email: admin@example.com
+  pg_port: 5432

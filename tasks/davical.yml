@@ -7,7 +7,7 @@
 - name: Get installed postgresql version
   shell:
     cmd: |
-      pg_lsclusters | tail -n+2 | cut -d" " -f1
+      pg_lsclusters | tail -n+2 | grep {{ davical.pg_port }} | cut -d" " -f1
   register: pg_version
   changed_when: false
 

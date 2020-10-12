@@ -18,6 +18,4 @@ galaxy_info:
 
   galaxy_tags: [davical, carddav, caldav]
 
-dependencies:
-  - src: sorrowless.postgresql
-    name: postgresql
+dependencies: []

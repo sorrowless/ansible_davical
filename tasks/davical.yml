@@ -2,7 +2,7 @@
 - name: Install Davical package
   package:
     name: "{{ davical.packages }}"
-    state: installed
+    state: present
 
 - name: Get installed postgresql version
   shell:

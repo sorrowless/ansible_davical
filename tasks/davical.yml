@@ -22,6 +22,7 @@
   become_user: postgres
   command: bash -c "/usr/share/davical/dba/create-database.sh"
   register: createdatabase
+  when: davical_db_exists.rc != 0
 
 - name: See output log for admin password
   debug:

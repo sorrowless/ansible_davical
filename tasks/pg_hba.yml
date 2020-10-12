@@ -21,4 +21,6 @@
   service:
     name: "postgresql@{{ pg_version.stdout }}-main.service"
     state: restarted
-  when: dav_dba.changed or dav_app.changed
+  when:
+    - dav_dba.changed or dav_app.changed
+    - davical_db_exists.rc != 0

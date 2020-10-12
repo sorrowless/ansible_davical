@@ -1,0 +1,36 @@
+---
+- name: Converge
+  hosts: all
+  become: true
+
+  vars:
+    postgresql:
+      enabled: yes
+      install_from_sources: yes
+      version: 12
+      clusters_to_drop:
+        - []
+      clusters_to_create:
+        - []
+
+  pre_tasks:
+    - name: Update apt cache.
+      apt: update_cache=true cache_valid_time=600
+      changed_when: false
+      when: ansible_os_family == 'Debian'
+
+  roles:
+    - role: postgresql
+    - role: davical
+
+  post_tasks:
+    - name: Verify postgres is running.
+      command: "pg_ctlcluster {{ postgresql.version }} main status"
+      changed_when: false
+
+    - name: Check for davical database
+      become: yes
+      become_method: sudo
+      become_user: postgres
+      command: psql -c "SELECT version();" davical
+      changed_when: false

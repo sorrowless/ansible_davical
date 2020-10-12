@@ -3,6 +3,7 @@
 davical: {}
 davical_defaults:
   packages:
+    - "php-fpm"
     - davical
   domain_name: cal.example.com
   admin_email: admin@example.com

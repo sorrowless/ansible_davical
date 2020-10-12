@@ -1,0 +1,4 @@
+# Skip 503 due to non-known version of postgresql on start. We cannot move
+# it to handler as handler cannot contain dynamic values.
+skip_list:
+  - '503'

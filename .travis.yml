@@ -5,7 +5,7 @@ services: docker
 
 env:
   global:
-    - ROLE_NAME: dante
+    - ROLE_NAME: davical
   matrix:
     - MOLECULE_DISTRO: ubuntu2004
     - MOLECULE_DISTRO: ubuntu1804
